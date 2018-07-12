@@ -1,0 +1,45 @@
+Module	SFTU_CLD
+Ident	"SFTU_CLD V01-00"
+
+!++TITLE:	SFTU_CLD
+!
+!  Author:	Ruslan R. Laishev
+!
+!  Creation date: 9-JUN-2016
+!
+!  Modification history:
+!--
+
+!
+! Client's options
+!
+define	verb	put
+	synonym	send
+
+	routine	_sftu_put
+
+	parameter p1, prompt="Local Source File", value(required, type=$file)
+	parameter p2, prompt="Remote IP", value(required, type=$quoted_string)
+	parameter p3, prompt="Remote Port", value(default=8888, type=$number)
+
+	qualifier	ack
+	qualifier	trace
+
+define	verb	fal
+	synonym	listen
+
+	routine	_sftu_fal
+
+	parameter p1, prompt="Local Port [8888]", value(default=8888, type=$number)
+
+	qualifier	ack
+	qualifier	trace
+
+
+define	verb	fdl
+	routine	_sftu_fdl
+
+	parameter p1, prompt="Local Source File", value(required, type=$file)
+	parameter p2, prompt="FDL File", value(type=$file)
+
+	qualifier	trace

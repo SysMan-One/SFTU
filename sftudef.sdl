@@ -1,0 +1,96 @@
+MODULE	SFTUDEF	IDENT	"SFTUDEF-1-X";
+
+/*++
+/* Facility:
+/*      StarLet File Transfer Utility
+/*
+/* Abstract:
+/*      This is an interface module contains data structures definitions,
+/*      constants, functions/procedures prototypes.
+/*
+/* Author:
+/*      Ruslan R. Laishev
+/*
+/* Creation Date: 2-JUN-2016
+/*
+/* Modification History:
+/*
+/*--
+
+
+CONSTANT	vblocksz EQUALS 512 PREFIX sftu$;
+CONSTANT	bucketsz EQUALS 8192 PREFIX sftu$;
+
+/*
+AGGREGATE	asc	STRUCTURE PREFIX asc_;
+	len	BYTE UNSIGNED;
+	sts	CHARACTER LENGTH 255;
+END	asc;
+
+
+/*
+CONSTANT	(
+	login, logout,, quit,
+	ls, cd,
+	get, put,
+	data, ack
+	) EQUALS 1 INCREMENT 1 PREFIX sftu$ TAG ctl;
+
+/*
+
+AGGREGATE	put	STRUCTURE  PREFIX put$ TAG sftu NOALIGN;
+
+	ebk	LONGWORD UNSIGNED;	/* XAB$L_EBK
+	ffb	WORD UNSIGNED;		/* XAB$W_FFB
+
+	fname	asc;
+
+	CONSTANT	sz EQUALS . ;
+
+END	put;
+
+/*
+
+AGGREGATE	data	STRUCTURE  PREFIX data$ TAG sftu NOALIGN;
+
+	len	WORD UNSIGNED;
+
+	CONSTANT	sz EQUALS . ;
+
+	data	BYTE UNSIGNED DIMENSION 0;
+
+END	data;
+
+/*
+AGGREGATE	ack	STRUCTURE  PREFIX ack$ TAG sftu NOALIGN;
+
+	vbn	LONGWORD UNSIGNED;
+	status	LONGWORD UNSIGNED;
+
+	CONSTANT	sz EQUALS . ;
+
+END	ack;
+
+/*
+AGGREGATE	pdu	STRUCTURE  PREFIX pdu$ TAG sftu NOALIGN;
+	req	LONGWORD UNSIGNED;
+
+	CONSTANT	sz EQUALS . ;
+
+	_u	UNION;
+		put	sftu_put;
+		data	sftu_data;
+		ack	sftu_ack;
+	END	_u;
+         
+END	pdu;
+/*
+AGGREGATE	frame	STRUCTURE  PREFIX frame$ TAG sftu NOALIGN;
+	len	WORD UNSIGNED;
+	crc32	LONGWORD UNSIGNED;
+
+	pdu	sftu_pdu;
+END	frame;
+
+
+END_MODULE	SFTUDEF;
